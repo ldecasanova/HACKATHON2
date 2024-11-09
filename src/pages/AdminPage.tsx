@@ -63,8 +63,38 @@ const AdminPage: React.FC = () => {
   return (
     <div className="container mx-auto py-8">
       <h2 className="text-2xl font-bold mb-6">Panel de Administración</h2>
-      {/* Formulario para crear o editar productos */}
-      {/* Puedes crear un componente separado para el formulario */}
+
+      {/* Botón para crear nuevo producto */}
+      <button
+        onClick={() =>
+          setEditingProduct({
+            title: '',
+            price: 0,
+            imgUrl: '',
+            stars: 0,
+            boughtInLastMonth: 0,
+            isBestSeller: false,
+          })
+        }
+        className="bg-green-500 text-white px-4 py-2 rounded mb-4"
+      >
+        Crear Nuevo Producto
+      </button>
+
+      {/* Formulario de edición o creación */}
+      {editingProduct && (
+        <div className="mt-6">
+          <h3 className="text-xl font-bold mb-4">
+            {editingProduct.itemId ? 'Editar Producto' : 'Crear Producto'}
+          </h3>
+          <ProductForm
+            product={editingProduct}
+            onSubmit={handleCreateOrUpdate}
+            onCancel={() => setEditingProduct(null)}
+          />
+        </div>
+      )}
+
       {/* Lista de productos con opciones para editar o eliminar */}
       <table className="min-w-full bg-white">
         <thead>
@@ -97,36 +127,6 @@ const AdminPage: React.FC = () => {
           ))}
         </tbody>
       </table>
-      {/* Formulario de edición o creación */}
-      {editingProduct && (
-        <div className="mt-6">
-          <h3 className="text-xl font-bold mb-4">
-            {editingProduct.itemId ? 'Editar Producto' : 'Crear Producto'}
-          </h3>
-          <ProductForm
-            product={editingProduct}
-            onSubmit={handleCreateOrUpdate}
-            onCancel={() => setEditingProduct(null)}
-          />
-        </div>
-      )}
-      {!editingProduct && (
-        <button
-          onClick={() =>
-            setEditingProduct({
-              title: '',
-              price: 0,
-              imgUrl: '',
-              stars: 0,
-              boughtInLastMonth: 0,
-              isBestSeller: false,
-            })
-          }
-          className="bg-green-500 text-white px-4 py-2 rounded mt-4"
-        >
-          Crear Nuevo Producto
-        </button>
-      )}
     </div>
   );
 };
